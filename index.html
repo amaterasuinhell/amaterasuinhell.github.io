@@ -125,7 +125,7 @@
   .torii svg { width: 100%; max-width: 280px; }
   .torii figcaption { margin-top: 16px; color: var(--dim); font-style: italic; font-size: 14px; }
 
-  /* ---------- features ---------- */
+   /* ---------- features ---------- */
   .features { background: #0a0709; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
   .card {
@@ -134,7 +134,11 @@
     transition: border-color .2s, transform .2s;
   }
   .card:hover { border-color: var(--sun); transform: translateY(-4px); }
-  .card .icon { font-size: 30px; margin-bottom: 14px; }
+  .card .shot-img {
+    width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+    display: block; margin: 0 auto 14px; border-radius: 6px;
+    border: 1px solid var(--line);
+  }
   .card h3 { font-size: 18px; letter-spacing: 1px; margin-bottom: 8px; }
   .card p { color: var(--dim); font-size: 15px; }
 
@@ -247,22 +251,22 @@
     <p class="sub">What awaits between the light and the dark.</p>
     <div class="cards">
       <div class="card">
-        <div class="icon">🕯️</div>
+        <img class="shot-img" src="img/feature1.jpg" alt="Descend the Realms of Shadow">
         <h3>Descend the Realms of Shadow</h3>
         <p>Explore layered Buddhist underworlds, each with its own horrors, rituals, and quiet wrongs to make right.</p>
       </div>
       <div class="card">
-        <div class="icon">🐾</div>
+        <img class="shot-img" src="img/feature2.jpg" alt="Retrieve Your Former Pets">
         <h3>Retrieve Your Former Pets</h3>
         <p>Every animal you once mistreated is waiting. Some remember you fondly. Some remember everything else.</p>
       </div>
       <div class="card">
-        <div class="icon">🕯️</div>
+        <img class="shot-img" src="img/feature3.jpg" alt="A Cavern Hub to Breathe">
         <h3>A Cavern Hub to Breathe</h3>
         <p>Between descents, unwind in a warm cavern and simply talk with your animals. Calm is part of the journey.</p>
       </div>
       <div class="card">
-        <div class="icon">☀️</div>
+        <img class="shot-img" src="img/feature4.jpg" alt="Light Against the Dark">
         <h3>Light Against the Dark</h3>
         <p>Carry the sun's radiance into places it was never meant to reach — as a tool, a weapon, and a confession.</p>
       </div>
@@ -287,7 +291,7 @@
             </linearGradient>
           </defs>
           <circle cx="200" cy="70" r="26" fill="#ffb347" opacity=".8"/>
-          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 1 — Underworld descent</text>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">First Biome</text>
         </svg>
       </figure>
       <figure class="shot">
@@ -302,7 +306,7 @@
           <rect width="400" height="180" fill="url(#p2)"/>
           <circle cx="200" cy="100" r="60" fill="#ffb347" opacity=".25"/>
           <circle cx="200" cy="100" r="34" fill="#ffcf8f" opacity=".5"/>
-          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 2 — The cavern hub</text>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Different paths</text>
         </svg>
       </figure>
       <figure class="shot">
@@ -320,7 +324,7 @@
             <circle cx="150" cy="130" r="2"/><circle cx="260" cy="30" r="2"/>
             <circle cx="360" cy="120" r="2"/><circle cx="40" cy="110" r="2"/>
           </g>
-          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 3 — Confronting a lost pet</text>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Personal gate to hell</text>
         </svg>
       </figure>
     </div>
