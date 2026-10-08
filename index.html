@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amaterasu in Hell — Exploration Horror</title>
+<style>
+  :root {
+    --bg: #0a0709;
+    --bg2: #140d10;
+    --panel: rgba(255, 255, 255, 0.04);
+    --ink: #efe6df;
+    --dim: #a89c92;
+    --sun: #ffb347;
+    --sun2: #ff7a3c;
+    --ember: #c0392b;
+    --line: rgba(255, 179, 71, 0.25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--sun); color: #1a0c02; }
+
+  /* ---------- shared ---------- */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 90px 0; position: relative; }
+  h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h2 .kicker { color: var(--sun); }
+  .sub { color: var(--dim); max-width: 640px; margin-bottom: 40px; font-style: italic; }
+  .rule { width: 70px; height: 2px; background: linear-gradient(90deg, var(--sun), transparent); margin: 14px 0 24px; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(10, 7, 9, 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .logo { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 15px; }
+  nav .logo span { color: var(--sun); }
+  nav .links { display: flex; gap: 26px; }
+  nav a { color: var(--dim); text-decoration: none; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; transition: color .2s; font-family: Verdana, sans-serif; }
+  nav a:hover, nav a.cta { color: var(--sun); }
+  nav a.cta { border: 1px solid var(--line); padding: 6px 14px; border-radius: 3px; }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 24px 80px;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 12%, rgba(255, 122, 60, 0.16), transparent 70%),
+      radial-gradient(ellipse 80% 50% at 50% 110%, rgba(192, 57, 43, 0.20), transparent 70%),
+      linear-gradient(180deg, #120a0d 0%, #0a0709 60%, #140d10 100%);
+    overflow: hidden;
+  }
+  .sun-disc {
+    position: absolute; top: -140px; left: 50%; transform: translateX(-50%);
+    width: 420px; height: 420px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd9a0, var(--sun) 35%, var(--sun2) 60%, rgba(255, 122, 60, 0) 75%);
+    filter: blur(6px); opacity: .85;
+    animation: pulse 7s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: translateX(-50%) scale(1); opacity:.85 } 50% { transform: translateX(-50%) scale(1.06); opacity:1 } }
+  .hero .tag {
+    font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--sun);
+    border: 1px solid var(--line); padding: 7px 18px; border-radius: 30px;
+    background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+    position: relative; z-index: 2;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 9vw, 96px);
+    line-height: 1.05;
+    margin: 28px 0 6px;
+    letter-spacing: 1px;
+    position: relative; z-index: 2;
+    text-shadow: 0 0 60px rgba(255, 122, 60, .35);
+  }
+  .hero h1 em { font-style: normal; color: var(--sun); }
+  .hero .tagline { color: var(--dim); max-width: 560px; font-style: italic; font-size: 18px; position: relative; z-index: 2; }
+  .hero .btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 40px; position: relative; z-index: 2; }
+  .btn {
+    display: inline-block; text-decoration: none; font-family: Verdana, sans-serif;
+    font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 14px 30px; border-radius: 4px; transition: transform .15s, box-shadow .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.primary { background: linear-gradient(135deg, var(--sun), var(--sun2)); color: #1a0c02; font-weight: bold; box-shadow: 0 8px 30px rgba(255,122,60,.35); }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ink); background: rgba(255,255,255,.04); }
+  .scroll-hint { position: absolute; bottom: 26px; color: var(--dim); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-family: Verdana, sans-serif; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ---------- about ---------- */
+  .about { background: linear-gradient(180deg, #140d10, #0a0709); }
+  .about .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 50px; align-items: start; }
+  .about p { color: var(--dim); margin-bottom: 18px; }
+  .about p strong { color: var(--ink); }
+  .genres { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+  .chip {
+    font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    border: 1px solid var(--line); color: var(--sun); padding: 6px 14px; border-radius: 30px;
+    background: rgba(255,122,60,.06);
+  }
+  .torii {
+    border: 1px solid var(--line); border-radius: 8px; padding: 34px 26px;
+    background: var(--panel); text-align: center;
+  }
+  .torii svg { width: 100%; max-width: 280px; }
+  .torii figcaption { margin-top: 16px; color: var(--dim); font-style: italic; font-size: 14px; }
+
+  /* ---------- features ---------- */
+  .features { background: #0a0709; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+  .card {
+    border: 1px solid var(--line); border-radius: 8px; padding: 28px 24px;
+    background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--sun); transform: translateY(-4px); }
+  .card .icon { font-size: 30px; margin-bottom: 14px; }
+  .card h3 { font-size: 18px; letter-spacing: 1px; margin-bottom: 8px; }
+  .card p { color: var(--dim); font-size: 15px; }
+
+  /* ---------- screenshots ---------- */
+  .shots { background: linear-gradient(180deg, #0a0709, #140d10); }
+  .shots .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .shot {
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    background: #000; transition: transform .2s;
+  }
+  .shot:hover { transform: scale(1.02); }
+  .shot svg { display: block; width: 100%; height: 180px; }
+  .shot figcaption { padding: 12px 16px; color: var(--dim); font-size: 13px; font-style: italic; }
+
+  /* ---------- devlog ---------- */
+  .devlog { background: #140d10; }
+  .posts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+  .post {
+    border-left: 3px solid var(--sun); padding: 4px 0 4px 18px;
+  }
+  .post .date { font-family: Verdana, sans-serif; font-size: 12px; color: var(--sun); letter-spacing: 2px; }
+  .post h3 { margin: 6px 0; font-size: 17px; }
+  .post p { color: var(--dim); font-size: 14px; }
+
+  /* ---------- download / CTA ---------- */
+  .cta {
+    text-align: center;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255, 122, 60, .18), transparent 70%),
+      #0a0709;
+    padding: 120px 24px;
+  }
+  .cta h2 { text-shadow: 0 0 40px rgba(255,122,60,.3); }
+  .cta .sub { margin-left: auto; margin-right: auto; }
+  .cta .status { font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--dim); margin: 30px 0 6px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 34px 24px; text-align: center;
+    color: var(--dim); font-size: 13px;
+    background: #070506;
+  }
+  footer a { color: var(--sun); text-decoration: none; }
+
+  @media (max-width: 800px) {
+    .about .grid { grid-template-columns: 1fr; }
+    nav .links { display: none; }
+    section { padding: 70px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Amaterasu <span>in Hell</span></div>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#shots">Screenshots</a>
+    <a href="#devlog">Dev Log</a>
+    <a class="cta" href="#download">Play</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="sun-disc" aria-hidden="true"></div>
+  <div class="tag">Exploration · Horror · In Development</div>
+  <h1>Amaterasu <em>in Hell</em></h1>
+  <p class="tagline">The sun goddess descends into the underworld — not for glory, but to bring home the pets she once wronged.</p>
+  <div class="btns">
+    <a class="btn primary" href="#download">Download</a>
+    <a class="btn ghost" href="#shots">Watch / Screenshots</a>
+  </div>
+  <div class="scroll-hint">▼ scroll</div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> The Story</h2>
+    <div class="rule"></div>
+    <div class="grid">
+      <div>
+        <p><strong>You are Amaterasu</strong>, the Japanese sun goddess. Long ago, you mistreated the animals you were meant to cherish — and one by one, they were cast into the Buddhist underworld.</p>
+        <p>Circumstances leave you no choice: you must <strong>descend into the realms of shadow</strong> and bring every one of them home. Each descent takes you deeper into a hell built from your own regrets — and each pet you face remembers more than you do.</p>
+        <p>But between descents, a <strong>cavern hub</strong> offers a rare mercy: a place to unwind, breathe, and simply converse with your animals. Redemption, here, is not a single act — it is a slow, stubborn conversation.</p>
+        <div class="genres">
+          <span class="chip">Exploration</span>
+          <span class="chip">Horror</span>
+          <span class="chip">In Development</span>
+        </div>
+      </div>
+      <figure class="torii">
+        <!-- Replace with your own key art / screenshot -->
+        <svg viewBox="0 0 240 200" role="img" aria-label="Silhouette of a torii gate under a red sun">
+          <defs>
+            <radialGradient id="g" cx="35%" cy="30%">
+              <stop offset="0%" stop-color="#ffd9a0"/>
+              <stop offset="55%" stop-color="#ffb347"/>
+              <stop offset="100%" stop-color="#ff7a3c"/>
+            </radialGradient>
+          </defs>
+          <rect width="240" height="200" fill="#0d0709"/>
+          <circle cx="120" cy="78" r="52" fill="url(#g)" opacity="0.9"/>
+          <g fill="#050303">
+            <rect x="30" y="52" width="180" height="14" rx="3"/>
+            <rect x="42" y="78" width="156" height="9" rx="3"/>
+            <rect x="58" y="60" width="14" height="130"/>
+            <rect x="168" y="60" width="14" height="130"/>
+          </g>
+          <path d="M0 178 Q40 168 70 178 T140 178 T210 178 T280 178 L280 200 L0 200 Z" fill="#050303"/>
+        </svg>
+        <figcaption>Key art placeholder — replace with your own.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="features" id="features">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> Features</h2>
+    <div class="rule"></div>
+    <p class="sub">What awaits between the light and the dark.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🕯️</div>
+        <h3>Descend the Realms of Shadow</h3>
+        <p>Explore layered Buddhist underworlds, each with its own horrors, rituals, and quiet wrongs to make right.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🐾</div>
+        <h3>Retrieve Your Former Pets</h3>
+        <p>Every animal you once mistreated is waiting. Some remember you fondly. Some remember everything else.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🕯️</div>
+        <h3>A Cavern Hub to Breathe</h3>
+        <p>Between descents, unwind in a warm cavern and simply talk with your animals. Calm is part of the journey.</p>
+      </div>
+      <div class="card">
+        <div class="icon">☀️</div>
+        <h3>Light Against the Dark</h3>
+        <p>Carry the sun's radiance into places it was never meant to reach — as a tool, a weapon, and a confession.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREENSHOTS ============ -->
+<section class="shots" id="shots">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> Screenshots</h2>
+    <div class="rule"></div>
+    <p class="sub">Placeholders for now — drop your real screenshots in when ready.</p>
+    <div class="row">
+      <figure class="shot">
+        <svg viewBox="0 0 400 180" role="img" aria-label="Screenshot placeholder 1">
+          <rect width="400" height="180" fill="#120a0d"/>
+          <rect width="400" height="180" fill="url(#p1)" opacity=".5"/>
+          <defs>
+            <linearGradient id="p1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c0392b"/><stop offset="100%" stop-color="#1a0f13"/>
+            </linearGradient>
+          </defs>
+          <circle cx="200" cy="70" r="26" fill="#ffb347" opacity=".8"/>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 1 — Underworld descent</text>
+        </svg>
+      </figure>
+      <figure class="shot">
+        <svg viewBox="0 0 400 180" role="img" aria-label="Screenshot placeholder 2">
+          <rect width="400" height="180" fill="#0d1414"/>
+          <defs>
+            <radialGradient id="p2" cx="50%" cy="60%">
+              <stop offset="0%" stop-color="#ffb347" stop-opacity=".35"/><stop offset="100%" stop-color="#0d1414"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="180" fill="url(#p2)"/>
+          <circle cx="200" cy="100" r="60" fill="#ffb347" opacity=".25"/>
+          <circle cx="200" cy="100" r="34" fill="#ffcf8f" opacity=".5"/>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 2 — The cavern hub</text>
+        </svg>
+      </figure>
+      <figure class="shot">
+        <svg viewBox="0 0 400 180" role="img" aria-label="Screenshot placeholder 3">
+          <rect width="400" height="180" fill="#0a0709"/>
+          <defs>
+            <linearGradient id="p3" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#241528"/><stop offset="100%" stop-color="#0a0709"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="180" fill="url(#p3)"/>
+          <g fill="#ff7a3c" opacity=".8">
+            <circle cx="90" cy="40" r="2"/><circle cx="320" cy="60" r="2"/>
+            <circle cx="150" cy="130" r="2"/><circle cx="260" cy="30" r="2"/>
+            <circle cx="360" cy="120" r="2"/><circle cx="40" cy="110" r="2"/>
+          </g>
+          <text x="200" y="150" text-anchor="middle" fill="#a89c92" font-size="13" font-family="Georgia, serif" font-style="italic">Screenshot 3 — Confronting a lost pet</text>
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEV LOG ============ -->
+<section class="devlog" id="devlog">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> Dev Log</h2>
+    <div class="rule"></div>
+    <p class="sub">Follow the making of the game — replace these with links to your real posts.</p>
+    <div class="posts">
+      <article class="post">
+        <div class="date">ENTRY 03</div>
+        <h3><a href="#" style="color:inherit;text-decoration:none">Building the cavern hub</a></h3>
+        <p>Why a horror game needs somewhere warm to come home to.</p>
+      </article>
+      <article class="post">
+        <div class="date">ENTRY 02</div>
+        <h3><a href="#" style="color:inherit;text-decoration:none">Designing the realms of shadow</a></h3>
+        <p>Mapping the Buddhist underworld into playable, explorable spaces.</p>
+      </article>
+      <article class="post">
+        <div class="date">ENTRY 01</div>
+        <h3><a href="#" style="color:inherit;text-decoration:none">Announcing Amaterasu in Hell</a></h3>
+        <p>The pitch: a sun goddess, her mistreated pets, and one long apology.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOWNLOAD / CTA ============ -->
+<section class="cta" id="download">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> Bring Them Home</h2>
+    <div class="rule" style="margin:14px auto 24px"></div>
+    <p class="sub">The game is in ongoing development. Wishlist, follow, or grab the latest build below.</p>
+    <div class="btns">
+      <a class="btn primary" href="#">Download Latest Build</a>
+      <a class="btn ghost" href="#">Itch.io Page</a>
+      <a class="btn ghost" href="#">Steam Wishlist</a>
+    </div>
+    <div class="status">In Development · More Descents Coming</div>
+  </div>
+</section>
+
+<footer>
+  © 2026 <a href="#">HoraxFN</a> · Amaterasu in Hell · All wrongs, one day, made right.
+</footer>
+
+</body>
+</html>
