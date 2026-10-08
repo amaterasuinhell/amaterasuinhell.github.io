@@ -57,26 +57,27 @@
   nav a.cta { border: 1px solid var(--line); padding: 6px 14px; border-radius: 3px; }
 
   /* ---------- hero ---------- */
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    /* 👇 Replace the URL below with your picture (or a local file like hero.jpg next to index.html) */
+    background: url("https://placehold.co/1600x900/1a0f13/ff7a3c?text=Hero+Image")
+                center / cover no-repeat;
+  }
+  /* Dark gradient on top of the picture so text stays readable */
+  .hero-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,7,9,.75) 0%, rgba(10,7,9,.25) 40%, rgba(10,7,9,.85) 100%);
+  }
   header.hero {
     min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center;
     position: relative;
     padding: 120px 24px 80px;
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 12%, rgba(255, 122, 60, 0.16), transparent 70%),
-      radial-gradient(ellipse 80% 50% at 50% 110%, rgba(192, 57, 43, 0.20), transparent 70%),
-      linear-gradient(180deg, #120a0d 0%, #0a0709 60%, #140d10 100%);
+    background: linear-gradient(180deg, #120a0d 0%, #0a0709 60%, #140d10 100%);
     overflow: hidden;
   }
-  .sun-disc {
-    position: absolute; top: -140px; left: 50%; transform: translateX(-50%);
-    width: 420px; height: 420px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #ffd9a0, var(--sun) 35%, var(--sun2) 60%, rgba(255, 122, 60, 0) 75%);
-    filter: blur(6px); opacity: .85;
-    animation: pulse 7s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100% { transform: translateX(-50%) scale(1); opacity:.85 } 50% { transform: translateX(-50%) scale(1.06); opacity:1 } }
   .hero .tag {
     font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 5px;
     text-transform: uppercase; color: var(--sun);
@@ -200,7 +201,7 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
-  <div class="sun-disc" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"></div>
   <div class="tag">Exploration · Horror · In Development</div>
   <h1>Amaterasu <em>in Hell</em></h1>
   <p class="tagline">The sun goddess descends into the underworld — not for glory, but to bring home the pets she once wronged.</p>
