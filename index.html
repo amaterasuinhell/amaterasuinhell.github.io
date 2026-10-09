@@ -4,15 +4,39 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Amaterasu in Hell — Exploration in hell</title>
-  <meta name="description"
+<meta name="description"
       content="Amaterasu in Hell — an exploration horror game. Descend into the Buddhist underworld as Amaterasu, the sun goddess, to retrieve the pets you once mistreated. In development by Joachim Penon.">
+<meta name="theme-color" content="#0a0709">
 
-  <meta property="og:title" content="Amaterasu in Hell">
+<meta property="og:title" content="Amaterasu in Hell">
 <meta property="og:description" content="The sun goddess descends into the underworld to bring home the pets she once wronged.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://amaterasuinhell.github.io/img/1render1232.jpg">
-/*<meta name="twitter:card" content="summary_large_image">*/
-  <style>
+<!-- <meta name="twitter:card" content="summary_large_image"> -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Amaterasu in Hell",
+  "description": "An exploration horror game. Descend into the Buddhist underworld as Amaterasu, the sun goddess, to bring home the pets she once mistreated.",
+  "url": "https://amaterasuinhell.github.io/",
+  "image": "https://amaterasuinhell.github.io/img/1render1232.jpg",
+  "genre": ["Exploration", "Horror"],
+  "gamePlatform": "PC",
+  "applicationCategory": "Game",
+  "author": {
+    "@type": "Person",
+    "name": "Joachim Penon"
+  },
+  "sameAs": [
+    "https://store.steampowered.com/app/5268890/Amaterasu_in_Hell/",
+    "https://madnesscastle.itch.io/amaterasu-in-hell"
+  ]
+}
+</script>
+
+<style>
   :root {
     --bg: #0a0709;
     --bg2: #140d10;
@@ -25,7 +49,7 @@
     --line: rgba(255, 179, 71, 0.25);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   body {
     background: var(--bg);
     color: var(--ink);
@@ -34,6 +58,12 @@
     overflow-x: hidden;
   }
   ::selection { background: var(--sun); color: #1a0c02; }
+
+  /* visually hidden, still read by search engines and screen readers */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
 
   /* ---------- shared ---------- */
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
@@ -59,19 +89,24 @@
   }
   nav .logo { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 15px; }
   nav .logo span { color: var(--sun); }
-  nav .links { display: flex; gap: 26px; }
+  nav .links { display: flex; align-items: center; gap: 26px; }
   nav a { color: var(--dim); text-decoration: none; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; transition: color .2s; font-family: Verdana, sans-serif; }
-  nav a:hover, nav a.cta { color: var(--sun); }
-  nav a.cta { border: 1px solid var(--line); padding: 6px 14px; border-radius: 3px; }
+  nav a:hover { color: var(--sun); }
+  nav a.nav-wish {
+    background: linear-gradient(135deg, var(--sun), var(--sun2));
+    color: #1a0c02; font-weight: bold;
+    padding: 7px 16px; border-radius: 3px;
+  }
+  nav a.nav-wish:hover { color: #1a0c02; filter: brightness(1.1); }
 
   /* ---------- hero ---------- */
   .hero-bg {
     position: absolute; inset: 0; z-index: 0;
-    
+
     background: url("img/1render.png")
                 center / cover no-repeat;
   }
-  /* Dark gradient on top of the picture so text stays readable 
+  /* Dark gradient on top of the picture so text stays readable
   .hero-bg::after {
     content: ""; position: absolute; inset: 0;
     background:
@@ -79,22 +114,23 @@
   }*/
   header.hero {
     min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
     text-align: center;
     position: relative;
-    padding: 120px 24px 80px;
+    /* content sits in the upper part of the screen; raise/lower the first value to nudge it */
+    padding: clamp(70px, 11vh, 120px) 24px 80px;
     background: linear-gradient(180deg, #120a0d 0%, #0a0709 60%, #140d10 100%);
     overflow: hidden;
   }
   .hero-logo {
-  width: 100%;
-  max-width: 840px;          
-  height: auto;              
-  display: block;
-  margin: 28px 0 6px;
-  position: relative; z-index: 2;
-  /* filter: drop-shadow(0 0 40px rgba(255, 122, 60, .35));*/
-}
+    width: 100%;
+    max-width: 840px;
+    height: auto;
+    display: block;
+    margin: 28px 0 6px;
+    position: relative; z-index: 2;
+    /* filter: drop-shadow(0 0 40px rgba(255, 122, 60, .35));*/
+  }
   .hero .tag {
     font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 5px;
     text-transform: uppercase; color: var(--sun);
@@ -124,8 +160,20 @@
   .scroll-hint { position: absolute; bottom: 26px; color: var(--dim); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-family: Verdana, sans-serif; animation: bob 2.4s ease-in-out infinite; }
   @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
+  /* ---------- video ---------- */
+  .video { background: linear-gradient(180deg, #140d10, #0a0709); }
+  .video-frame {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .video-frame iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: 0;
+  }
+
   /* ---------- about ---------- */
-  .about { background: linear-gradient(180deg, #140d10, #0a0709); }
+  .about { background: #0a0709; }
   .about .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 50px; align-items: start; }
   .about p { color: var(--dim); margin-bottom: 18px; }
   .about p strong { color: var(--ink); }
@@ -139,10 +187,14 @@
     border: 1px solid var(--line); border-radius: 8px; padding: 34px 26px;
     background: var(--panel); text-align: center;
   }
-  .torii svg { width: 100%; max-width: 280px; }
+  .torii a { display: block; cursor: zoom-in; }
+  .torii img {
+    width: 100%; max-width: 280px; height: auto; aspect-ratio: 6 / 5;
+    object-fit: cover; display: block; margin: 0 auto; border-radius: 4px;
+  }
   .torii figcaption { margin-top: 16px; color: var(--dim); font-style: italic; font-size: 14px; }
 
-   /* ---------- features ---------- */
+  /* ---------- features ---------- */
   .features { background: #0a0709; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
   .card {
@@ -152,7 +204,7 @@
   }
   .card:hover { border-color: var(--sun); transform: translateY(-4px); }
   .card .shot-img {
-    width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+    width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover;
     display: block; margin: 0 auto 14px; border-radius: 6px;
     border: 1px solid var(--line);
   }
@@ -167,21 +219,9 @@
     background: #000; transition: transform .2s;
   }
   .shot:hover { transform: scale(1.02); }
-  .shot svg { display: block; width: 100%; height: 180px; }
+  .shot a { display: block; cursor: zoom-in; }
+  .shot img { width: 100%; height: 180px; object-fit: cover; display: block; }
   .shot figcaption { padding: 12px 16px; color: var(--dim); font-size: 13px; font-style: italic; }
-
-  /* ---------- video ---------- */
-  .video { background: linear-gradient(180deg, #140d10, #0a0709); }
-  .video-frame {
-    position: relative; width: 100%; aspect-ratio: 16 / 9;
-    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
-  }
-  .video-frame iframe {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    border: 0;
-  }
-
 
   /* ---------- devlog ---------- */
   .devlog { background: #140d10; }
@@ -193,17 +233,19 @@
   .post h3 { margin: 6px 0; font-size: 17px; }
   .post p { color: var(--dim); font-size: 14px; }
 
-  /* ---------- download / CTA ---------- */
-  .cta {
+  /* ---------- wishlist / CTA ---------- */
+  .download {
     text-align: center;
     background:
       radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255, 122, 60, .18), transparent 70%),
       #0a0709;
     padding: 120px 24px;
   }
-  .cta h2 { text-shadow: 0 0 40px rgba(255,122,60,.3); }
-  .cta .sub { margin-left: auto; margin-right: auto; }
-  .cta .status { font-family: Verdana, sans-serif; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--dim); margin: 30px 0 6px; }
+  .download h2 { text-shadow: 0 0 40px rgba(255,122,60,.3); }
+  .download .sub { margin-left: auto; margin-right: auto; }
+  .download .btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .steam-widget { max-width: 646px; margin: 0 auto 36px; }
+  .steam-widget iframe { display: block; width: 100%; height: 190px; border: 0; }
 
   footer {
     border-top: 1px solid var(--line);
@@ -213,10 +255,45 @@
   }
   footer a { color: var(--sun); text-decoration: none; }
 
+  /* ---------- lightbox ---------- */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(5, 3, 4, 0.94);
+    padding: 24px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox figure { max-width: 100%; text-align: center; }
+  .lightbox img {
+    max-width: 100%; max-height: calc(100vh - 120px);
+    display: block; margin: 0 auto;
+    border: 1px solid var(--line); border-radius: 6px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .lightbox figcaption { margin-top: 14px; color: var(--dim); font-style: italic; font-size: 14px; }
+  .lightbox button {
+    position: absolute; background: rgba(255,255,255,.06); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 50%;
+    width: 46px; height: 46px; font-size: 22px; line-height: 1; cursor: pointer;
+    transition: border-color .2s, color .2s;
+  }
+  .lightbox button:hover, .lightbox button:focus-visible { border-color: var(--sun); color: var(--sun); outline: none; }
+  .lightbox .lb-close { top: 18px; right: 18px; }
+  .lightbox .lb-prev { left: 18px; top: 50%; transform: translateY(-50%); }
+  .lightbox .lb-next { right: 18px; top: 50%; transform: translateY(-50%); }
+
   @media (max-width: 800px) {
     .about .grid { grid-template-columns: 1fr; }
     nav .links { display: none; }
     section { padding: 70px 0; }
+    header.hero { padding-top: 90px; }
+    .lightbox .lb-prev, .lightbox .lb-next { top: auto; bottom: 18px; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-hint { animation: none; }
+    .btn, .card, .shot { transition: none; }
   }
 </style>
 </head>
@@ -225,27 +302,40 @@
 <nav>
   <div class="logo">Amaterasu in Hell</div>
   <div class="links">
+    <a href="#video">Trailer</a>
     <a href="#about">About</a>
     <a href="#features">Features</a>
     <a href="#shots">Screenshots</a>
     <a href="#devlog">Dev Log</a>
-    <a class="cta" href="#download">Play</a>
+    <a class="nav-wish" href="https://store.steampowered.com/app/5268890/Amaterasu_in_Hell/">Wishlist</a>
   </div>
 </nav>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-bg" aria-hidden="true"></div>
-  <!--<div class="tag">Exploration · Horror · In Development</div>
-  <h1>Amaterasu in Hell</h1>-->
-   <img class="hero-logo" src="img/1render-grandFormat1280LibraryLogo.png" alt="Amaterasu in Hell title">
+  <h1 class="sr-only">Amaterasu in Hell</h1>
+  <!--<div class="tag">Exploration · Horror · In Development</div>-->
+  <img class="hero-logo" src="img/1render-grandFormat1280LibraryLogo.png" alt="Amaterasu in Hell title">
   <p class="tagline"><strong>The sun goddess descends into the underworld — not for glory, but to bring home the pets she once wronged.</strong></p>
   <div class="btns">
-   <!-- <a class="btn primary" href="#download">Download</a> -->
-    <a class="btn ghost" href="#shots">Watch / Screenshots</a>
+    <a class="btn primary" href="https://store.steampowered.com/app/5268890/Amaterasu_in_Hell/">Wishlist on Steam</a>
+    <a class="btn ghost" href="#video">Watch Trailer</a>
   </div>
   <div class="scroll-hint">▼ scroll</div>
 </header>
+
+<!-- ============ VIDEO ============ -->
+<section class="video" id="video">
+  <div class="wrap">
+    <h2><span class="kicker">—</span> Trailer</h2>
+    <div class="rule"></div>
+    <p class="sub">See the realms of shadow in motion.</p>
+    <div class="video-frame">
+      <iframe width="560" height="315" loading="lazy" src="https://www.youtube.com/embed/hnU65-9t2E4?si=f2ZgJ1GrihxNsvfZ" title="Amaterasu in Hell trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
 
 <!-- ============ ABOUT ============ -->
 <section class="about" id="about">
@@ -263,13 +353,15 @@
           <span class="chip">In Development</span>
         </div>
       </div>
-     <figure class="torii">
-  <img src="img/Screenshot-AmaterasuinHell4.png" alt="Amaterasu in Hell key art"
-       style="width: 100%; max-width: 280px; aspect-ratio: 6 / 5;
-              object-fit: cover; display: block; margin: 0 auto;
-              border-radius: 4px;">
-  <figcaption>Talk with the animals you once wronged.</figcaption>
-</figure>
+      <figure class="torii">
+        <a href="img/Screenshot-AmaterasuinHell4.png" data-lightbox
+           data-caption="Talk with the animals you once wronged."
+           data-alt="Amaterasu in conversation with one of her former pets">
+          <img src="img/Screenshot-AmaterasuinHell4.png" alt="Amaterasu in conversation with one of her former pets"
+               width="600" height="500" loading="lazy">
+        </a>
+        <figcaption>Talk with the animals you once wronged.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -282,22 +374,22 @@
     <p class="sub">What awaits between the light and the dark.</p>
     <div class="cards">
       <div class="card">
-        <img class="shot-img" src="img/feature2.png" alt="Descend the Realms of Shadow">
+        <img class="shot-img" src="img/feature2.png" alt="Descend the Realms of Shadow" width="600" height="600" loading="lazy">
         <h3>Descend the Realms of Shadow</h3>
         <p>Explore layered Buddhist underworlds, each with its own horrors, rituals, and quiet wrongs to make right.</p>
       </div>
       <div class="card">
-        <img class="shot-img" src="img/feature1.png" alt="Retrieve Your Former Pets">
+        <img class="shot-img" src="img/feature1.png" alt="Retrieve Your Former Pets" width="600" height="600" loading="lazy">
         <h3>Retrieve Your Former Pets</h3>
         <p>Every animal you once mistreated is waiting. Some remember you fondly. Some remember everything else.</p>
       </div>
       <div class="card">
-        <img class="shot-img" src="img/feature3.jpg" alt="A Cavern Hub to Breathe">
+        <img class="shot-img" src="img/feature3.jpg" alt="A Cavern Hub to Breathe" width="600" height="600" loading="lazy">
         <h3>A Cavern Hub to Breathe</h3>
         <p>Between descents, unwind in a warm cavern and simply talk with your animals. Calm is part of the journey.</p>
       </div>
       <div class="card">
-        <img class="shot-img" src="img/feature4.jpg" alt="Light Against the Dark">
+        <img class="shot-img" src="img/feature4.jpg" alt="Light Against the Dark" width="600" height="600" loading="lazy">
         <h3>Light Against the Dark</h3>
         <p>Carry the sun's radiance into places it was never meant to reach — as a tool, a weapon, and a confession.</p>
       </div>
@@ -310,35 +402,35 @@
   <div class="wrap">
     <h2><span class="kicker">—</span> Screenshots</h2>
     <div class="rule"></div>
-    <p class="sub">Some early development screenshot - September 2026</p>
+    <p class="sub">Early development screenshots — September 2026. Click one to view it full size.</p>
     <div class="row">
-     <figure class="shot">
-  <img src="img/Screenshot-AmaterasuinHell1.png" alt="Amaterasu walking through the first biome"
-       loading="lazy" style="width:100%;height:180px;object-fit:cover;display:block">
-  <figcaption>First Biome</figcaption>
-</figure>
-        <figure class="shot">
-  <img src="img/Screenshot-AmaterasuinHell2.png" alt="Amaterasu walking through the first biome"
-       loading="lazy" style="width:100%;height:180px;object-fit:cover;display:block">
-  <figcaption>Different paths</figcaption>
-</figure>
-       <figure class="shot">
-  <img src="img/Screenshot-AmaterasuinHell3.png" alt="Amaterasu walking through the first biome"
-       loading="lazy" style="width:100%;height:180px;object-fit:cover;display:block">
-  <figcaption>Personal gate to hell</figcaption>
-</figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ VIDEO ============ -->
-<section class="video" id="video">
-  <div class="wrap">
-    <h2><span class="kicker">—</span> Trailer</h2>
-    <div class="rule"></div>
-    <p class="sub">See the realms of shadow in motion.</p>
-    <div class="video-frame">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/hnU65-9t2E4?si=f2ZgJ1GrihxNsvfZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <figure class="shot">
+        <a href="img/Screenshot-AmaterasuinHell1.png" data-lightbox
+           data-caption="First Biome"
+           data-alt="Screenshot of the first biome">
+          <img src="img/Screenshot-AmaterasuinHell1.png" alt="Screenshot of the first biome"
+               width="1600" height="900" loading="lazy">
+        </a>
+        <figcaption>First Biome</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/Screenshot-AmaterasuinHell2.png" data-lightbox
+           data-caption="Different paths"
+           data-alt="Screenshot showing different paths to take">
+          <img src="img/Screenshot-AmaterasuinHell2.png" alt="Screenshot showing different paths to take"
+               width="1600" height="900" loading="lazy">
+        </a>
+        <figcaption>Different paths</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="img/Screenshot-AmaterasuinHell3.png" data-lightbox
+           data-caption="Personal gate to hell"
+           data-alt="Screenshot of a personal gate to hell">
+          <img src="img/Screenshot-AmaterasuinHell3.png" alt="Screenshot of a personal gate to hell"
+               width="1600" height="900" loading="lazy">
+        </a>
+        <figcaption>Personal gate to hell</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -350,16 +442,18 @@
     <div class="rule"></div>
     <p class="sub">Follow the progress —</p>
     <div class="posts">
+      <!-- Hidden until published. Uncomment and add the real link when ready.
       <article class="post">
-        <div class="date">Devlog 3 - the cavern #draft</div>
+        <div class="date">Devlog 3 - the cavern</div>
         <h3><a href="#" style="color:inherit;text-decoration:none">Building the cavern hub</a></h3>
         <p>Why this game needs somewhere warm to come home to.</p>
       </article>
       <article class="post">
-        <div class="date">Devlog 1  - After the Game as Art festival #Draft</div>
+        <div class="date">Devlog 1 - After the Game as Art festival</div>
         <h3><a href="#" style="color:inherit;text-decoration:none">First time getting real feedback</a></h3>
-        <p><!--Exciting and stressing experience, but amazed by the welvoming the game got.--></p>
+        <p>Exciting and stressing experience, but amazed by the welcoming the game got.</p>
       </article>
+      -->
       <article class="post">
         <div class="date">Devlog 0 - October 2026</div>
         <h3><a href="https://madnesscastle.itch.io/amaterasu-in-hell/devlog/1697302/october-2026" style="color:inherit;text-decoration:none">Opening of Itch.io page</a></h3>
@@ -369,24 +463,108 @@
   </div>
 </section>
 
-<!-- ============ DOWNLOAD / CTA ============ -->
-<section class="cta" id="download">
+<!-- ============ WISHLIST / CTA ============ -->
+<section class="download" id="download">
   <div class="wrap">
     <h2><span class="kicker">—</span> Bring Them Home</h2>
     <div class="rule" style="margin:14px auto 24px"></div>
     <p class="sub">The game is in ongoing development. Wishlist on Steam to get notified at launch.</p>
-    <div class="btns">
-      <!--<a class="btn primary" href="#">Download Latest Build</a>-->
-      <a class="btn ghost" href="https://madnesscastle.itch.io/amaterasu-in-hell">Itch.io Page</a>
-      <a class="btn ghost" href="https://store.steampowered.com/app/5268890/Amaterasu_in_Hell/">Steam Wishlist</a>
+    <div class="steam-widget">
+      <iframe src="https://store.steampowered.com/widget/5268890/" title="Amaterasu in Hell on Steam" loading="lazy" frameborder="0"></iframe>
     </div>
-   <!-- <div class="status">In Development · Active blog</div>-->
+    <div class="btns">
+      <a class="btn primary" href="https://store.steampowered.com/app/5268890/Amaterasu_in_Hell/">Steam Wishlist</a>
+      <a class="btn ghost" href="https://madnesscastle.itch.io/amaterasu-in-hell">Itch.io Page</a>
+    </div>
   </div>
 </section>
 
 <footer>
   © 2026 <a href="mailto:amaterasuinhell@gmail.com">Joachim Penon</a> · Amaterasu in Hell · All rights reserved.
 </footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+  <button class="lb-close" type="button" aria-label="Close">&times;</button>
+  <button class="lb-prev" type="button" aria-label="Previous image">&#8249;</button>
+  <figure>
+    <img src="" alt="">
+    <figcaption></figcaption>
+  </figure>
+  <button class="lb-next" type="button" aria-label="Next image">&#8250;</button>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('a[data-lightbox]'));
+  if (!links.length) return;
+
+  var box = document.getElementById('lightbox');
+  var img = box.querySelector('img');
+  var cap = box.querySelector('figcaption');
+  var closeBtn = box.querySelector('.lb-close');
+  var prevBtn = box.querySelector('.lb-prev');
+  var nextBtn = box.querySelector('.lb-next');
+  var index = 0;
+  var lastFocus = null;
+
+  function show(i) {
+    index = (i + links.length) % links.length;
+    var a = links[index];
+    img.src = a.getAttribute('href');
+    img.alt = a.getAttribute('data-alt') || '';
+    cap.textContent = a.getAttribute('data-caption') || '';
+  }
+
+  function open(i) {
+    lastFocus = document.activeElement;
+    show(i);
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function close() {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    img.src = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  if (links.length < 2) {
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+  }
+
+  links.forEach(function (a, i) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      open(i);
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', function () { show(index - 1); });
+  nextBtn.addEventListener('click', function () { show(index + 1); });
+
+  // click on the dark backdrop closes the viewer
+  box.addEventListener('click', function (e) {
+    if (e.target === box) close();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(index - 1);
+    else if (e.key === 'ArrowRight') show(index + 1);
+  });
+})();
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
