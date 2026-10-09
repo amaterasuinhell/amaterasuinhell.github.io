@@ -248,16 +248,16 @@
     border: 1px solid var(--line); color: var(--sun); padding: 6px 14px; border-radius: 30px;
     background: rgba(255,122,60,.06);
   }
-  .torii {
-    border: 1px solid var(--line); border-radius: 8px; padding: 34px 26px;
-    background: var(--panel); text-align: center;
-  }
-  .torii a { display: block; cursor: zoom-in; }
-  .torii img {
-    width: 100%; max-width: 280px; height: auto; aspect-ratio: 6 / 5;
-    object-fit: cover; display: block; margin: 0 auto; border-radius: 4px;
-  }
-  .torii figcaption { margin-top: 16px; color: var(--dim); font-style: italic; font-size: 14px; }
+ .torii { text-align: center; }
+.torii a { display: block; cursor: zoom-in; }
+.torii img {
+  width: 100%;
+  height: auto;                 /* was 280px + 6/5 crop — now full image */
+  display: block; margin: 0 auto;
+  border-radius: 6px;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,.45));
+}
+.torii figcaption { margin-top: 14px; color: var(--dim); font-style: italic; font-size: 14px; }
 
   /* ---------- features ---------- */
   .features { background: #0a0709; }
